@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:interview/inside_layout.dart';
+import 'package:interview/widget/widget.dart';
 
 void main() => runApp(const MyApp());
 
@@ -13,22 +13,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyGridScreen(),
+      home: CubicalLayoutScreen(),
     );
   }
 }
 
-class MyGridScreen extends StatefulWidget {
-  const MyGridScreen({Key? key}) : super(key: key);
+class CubicalLayoutScreen extends StatefulWidget {
+  const CubicalLayoutScreen({Key? key}) : super(key: key);
 
   @override
-  _MyGridScreenState createState() => _MyGridScreenState();
+  _CubicalLayoutScreenState createState() => _CubicalLayoutScreenState();
 }
 
-class _MyGridScreenState extends State<MyGridScreen> {
+class _CubicalLayoutScreenState extends State<CubicalLayoutScreen> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Seat Booking"),
@@ -39,44 +39,19 @@ class _MyGridScreenState extends State<MyGridScreen> {
         //maxCrossAxisExtent as per given assigns only 2 boxes in a row and thus forming grid layout with 5 container.
         body: Center(
           child: Container(
-              alignment: Alignment.center,
-              child: GridView.extent(
-                primary: false,
-                maxCrossAxisExtent: width / 2,
-                children: <Widget>[
-                  chairs(),
-                  chairs(),
-                  chairs(),
-                  chairs(),
-                  chairs(),
-
-                  //If we want to add more boxes we can add container in it.
-                ],
-              )),
-        ));
-  }
-}
-
-class chairs extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        alignment: Alignment.center,
-        margin: const EdgeInsets.all(10),
-        child: inside_layout(),
-        decoration: BoxDecoration(
-          color: Colors.blueGrey,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
-            )
-          ],
-        ),
-      ),
+            alignment: Alignment.center,
+            child: GridView.count(
+              childAspectRatio: 1,
+              crossAxisCount: 2,
+              crossAxisSpacing: 0,
+              mainAxisSpacing: 0,
+              children: List.generate(5, (index) {
+                return const ChildCubicalLayout();
+              })
+            ),
+          )
+        )
     );
   }
 }
+

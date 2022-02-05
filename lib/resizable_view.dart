@@ -1,44 +1,21 @@
 import 'package:flutter/material.dart';
-
-class inside_layout extends StatefulWidget {
-  @override
-  _DemoState createState() => _DemoState();
-}
-
-class _DemoState extends State<inside_layout> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      child: ResizebleWidget(
-        child: Center(
-            child: Container(
-                margin: const EdgeInsets.all(20),
-                alignment: Alignment.center,
-                //The image is imported using the assets in pubspec.yaml and can be even taken from the network directly.
-                child: Image.asset('images/img.png'))),
-      ),
-    );
-  }
-}
+import 'package:interview/manipulating_ball.dart';
 
 //The resizeable widget is used to manipulate the size of the chair and the box assigned to a particular seat.
-class ResizebleWidget extends StatefulWidget {
-  const ResizebleWidget({required this.child});
+class ResizableWidget extends StatefulWidget {
+  const ResizableWidget({required this.child});
 
   final Widget child;
 
   @override
-  _ResizebleWidgetState createState() => _ResizebleWidgetState();
+  _ResizableWidgetState createState() => _ResizableWidgetState();
 }
 
-// The radius of the gesture Detector.
-const ballDiameter = 20.0;
-
-class _ResizebleWidgetState extends State<ResizebleWidget> {
-  double balldiameter= ballDiameter/2;
-  double height = 150;
-  double width = 150;
+class _ResizableWidgetState extends State<ResizableWidget> {
+  double ballDiameter = 20.0;
+  double balldiameter = 10.0;
+  double height = 140;
+  double width = 140;
 
 //Only the top and the ;eft side are only taken into consideration and then as per the need the other points are manipulated taking the height into consideration.
   double top = 0;
@@ -129,54 +106,6 @@ class _ResizebleWidgetState extends State<ResizebleWidget> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class ManipulatingBall extends StatefulWidget {
-  const ManipulatingBall({Key? key, required this.onDrag});
-
-  final Function onDrag;
-
-  @override
-  _ManipulatingBallState createState() => _ManipulatingBallState();
-}
-
-class _ManipulatingBallState extends State<ManipulatingBall> {
-  late double initX;
-  late double initY;
-
-//The drag is for the point that can be dragged and then the change in position of the seat is calculated as shown.
-  //But the initial X and Y axis are always considered.
-  _handleDrag(details) {
-    setState(() {
-      initX = details.globalPosition.dx;
-      initY = details.globalPosition.dy;
-    });
-  }
-
-  _handleUpdate(details) {
-    var dx = details.globalPosition.dx - initX;
-    var dy = details.globalPosition.dy - initY;
-    initX = details.globalPosition.dx;
-    initY = details.globalPosition.dy;
-    widget.onDrag(dx, dy);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    //The Gesture Detector are the main points that help in controlling the different situations of the Black Dots.
-    return GestureDetector(
-      onPanStart: _handleDrag,
-      onPanUpdate: _handleUpdate,
-      child: Container(
-        width: ballDiameter,
-        height: ballDiameter,
-        decoration: const BoxDecoration(
-          color: Colors.black,
-          shape: BoxShape.circle,
-        ),
-      ),
     );
   }
 }
